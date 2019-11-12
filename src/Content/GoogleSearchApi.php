@@ -2,8 +2,6 @@
 
 namespace Irony\Google\Search\Content;
 
-use Flarum\User\Guest;
-use Flarum\User\User;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -83,7 +81,27 @@ class GoogleSearchApi implements RequestHandlerInterface
             return new JsonResponse(array('data'=>[]));
         } else {
             // 谷歌搜索结果并返回
-            return $this->query($q);
+            $data = array();
+            array_push($data, array(
+                'type'=>'search',
+                "id"=>"1",
+                'attributes'=>array(
+                    'content'=>'内容',
+                    'url'=>'https://www.baidu.com',
+                    'title'=>'标题'
+                    )
+                ), array(
+                    'type'=>'search',
+                    "id"=>"2",
+                    'attributes'=>array(
+                        'content'=>'内33容',
+                        'url'=>'https://www.baidu.com',
+                        'title'=>'444标题'
+                        )
+                    )
+            );
+            return new JsonResponse(array('data'=>$data));
+            //return $this->query($q);
         }
     }
 }

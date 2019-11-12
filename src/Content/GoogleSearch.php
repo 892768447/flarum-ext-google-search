@@ -6,7 +6,7 @@ use Flarum\Frontend\Document;
 use Flarum\Http\Exception\RouteNotFoundException;
 use Flarum\Api\Client;
 use Illuminate\Contracts\View\Factory;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 class GoogleSearch
 {
@@ -26,7 +26,7 @@ class GoogleSearch
         $this->view = $view;
     }
 
-    public function __invoke(Document $document, Request $request)
+    public function __invoke(Document $document, ServerRequestInterface $request)
     {
         return $document;
     }

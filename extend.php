@@ -3,6 +3,7 @@
 namespace Irony\Google\Search;
 
 use Flarum\Extend;
+use Flarum\Extend\Locales;
 use Flarum\Foundation\Application;
 
 return [
@@ -11,7 +12,7 @@ return [
         ->css(__DIR__ . '/resources/less/forum.less')
         ->route('/google', 'irony_google_search', Content\GoogleSearch::class),
     (new Extend\Routes('api'))
-        ->get('/google', 'irony_google_search_api', Content\GoogleSearchApi::class)
-        ->post('/google', 'irony_google_search_api', Content\GoogleSearchApi::class),
+        ->get('/google/search', 'irony_google_search_api', Content\GoogleSearchApi::class)
+        ->post('/google/search', 'irony_google_search_api', Content\GoogleSearchApi::class),
     (new Extend\Locales(__DIR__ . '/resources/locale')),
 ];

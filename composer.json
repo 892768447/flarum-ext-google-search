@@ -1,6 +1,6 @@
 {
     "name": "irony/flarum-ext-google-search",
-    "description": "Google Search",
+    "description": "Google Search, use url /google to view",
     "keywords": [
         "extension",
         "flarum",
@@ -18,8 +18,9 @@
     "require": {
         "flarum/core": "^0.1.0-beta.10"
     },
-    "replace": {
-        "flagrow/user-directory": "*"
+    "support": {
+        "issues": "https://github.com/892768447/flarum-ext-google-search/issues",
+        "source": "https://github.com/892768447/flarum-ext-google-search"
     },
     "extra": {
         "flarum-extension": {
