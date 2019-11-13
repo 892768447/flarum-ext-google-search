@@ -16,7 +16,6 @@
             "homepage": "https://pyqt.site/"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "flarum/core": "^0.1.0-beta.10"
     },
@@ -29,7 +28,7 @@
             "title": "Google Search",
             "icon": {
                 "name": "fab fa-google",
-                "backgroundColor": "#e74c3c",
+                "backgroundColor": "#000",
                 "color": "#fff"
             }
         },
