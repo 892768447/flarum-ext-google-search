@@ -3,8 +3,6 @@
 namespace Irony\Google\Search;
 
 use Flarum\Extend;
-use Flarum\Extend\Locales;
-use Flarum\Foundation\Application;
 
 return [
     (new Extend\Frontend('forum'))

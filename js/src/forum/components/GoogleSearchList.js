@@ -72,13 +72,8 @@ export default class GoogleSearchList extends Component {
         }
       >
         <ul className="DiscussionList-discussions">
-          
           {this.googleresults.map(info => {
-            return (
-              <li>
-                {GoogleSearchListItem.component({ info, params })}
-              </li>
-            );
+            return <li>{GoogleSearchListItem.component({ info, params })}</li>;
           })}
         </ul>
         <div className="DiscussionList-loadMore">{loading}</div>
@@ -134,7 +129,17 @@ export default class GoogleSearchList extends Component {
       return m.deferred().resolve(preloadedLists).promise;
     }
 
-    return app.store.find("google/search", this.requestParams());
+    return app
+      .request({
+        method: "GET",
+        url: app.forum.attribute("apiUrl") + "/google/search",
+        data: this.requestParams()
+      })
+      .then(function(data) {
+        return data;
+      });
+
+    //return app.store.find("google/search", this.requestParams());
   }
 
   /**
@@ -157,7 +162,6 @@ export default class GoogleSearchList extends Component {
    * @return {Array}
    */
   parseResults(results) {
-    console.log(results);
     [].push.apply(this.googleresults, results);
 
     this.loading = false;
@@ -165,7 +169,6 @@ export default class GoogleSearchList extends Component {
 
     m.lazyRedraw();
 
-    console.log(this.googleresults);
     return results;
   }
 

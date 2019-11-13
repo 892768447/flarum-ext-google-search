@@ -1,8 +1,9 @@
 irony-google-search:
-    forum:
-        search:
-            search_heading: "谷歌"
-            all_search_button: "搜索「{query}」"
-        page:
-            nav: "谷歌搜索"
-            empty_text: "啊哦，好像什么也没有搜索到。"
+  forum:
+    search:
+      search_heading: "谷歌"
+      all_search_button: "搜索「{query}」"
+    page:
+      nav: "谷歌搜索"
+      notice_text: "请先登录后再搜索。"
+      empty_text: "啊哦，好像什么也没有搜索到。"

@@ -4,8 +4,7 @@ import Page from "flarum/components/Page";
 import ItemList from "flarum/utils/ItemList";
 import listItems from "flarum/helpers/listItems";
 import IndexPage from "flarum/components/IndexPage";
-import DiscussionComposer from "flarum/components/DiscussionComposer";
-import LogInModal from "flarum/components/LogInModal";
+import Alert from "flarum/components/Alert";
 import Button from "flarum/components/Button";
 import LinkButton from "flarum/components/LinkButton";
 import SelectDropdown from "flarum/components/SelectDropdown";
@@ -19,10 +18,13 @@ export default class GoogleSearchPage extends Page {
   init() {
     super.init();
     const params = this.params();
+    this.bodyClass = "App--index";
     if (!app.cache.googleSearchList) {
       app.cache.googleSearchList = new GoogleSearchList({ params });
     }
-    this.bodyClass = "App--index";
+    if (!app.session.user) {
+      this.alertNotice();
+    }
   }
 
   onunload() {
@@ -82,6 +84,22 @@ export default class GoogleSearchPage extends Page {
       $(window).scrollTop(scrollTop - oldHeroHeight + heroHeight);
     scroll();
     setTimeout(scroll, 1);
+  }
+
+  alertNotice() {
+    let alert;
+    app.alerts.show(
+      (alert = new Alert({
+        type: "error",
+        children: app.translator.trans(
+          "irony-google-search.forum.page.notice_text"
+        )
+      }))
+    );
+    // 5秒后自动关闭
+    setTimeout(function() {
+      app.alerts.dismiss(alert);
+    }, 3000);
   }
 
   /**
@@ -146,7 +164,11 @@ export default class GoogleSearchPage extends Page {
         icon: "fas fa-sync",
         className: "Button Button--icon",
         onclick: () => {
-          app.cache.googleSearchList.refresh();
+          if (app.session.user) {
+            app.cache.googleSearchList.refresh();
+          } else {
+            this.alertNotice();
+          }
         }
       })
     );
@@ -162,7 +184,7 @@ export default class GoogleSearchPage extends Page {
    * @return {String}
    */
   searching() {
-    return this.params().q;
+    return this.params();
   }
 
   /**
@@ -172,10 +194,7 @@ export default class GoogleSearchPage extends Page {
    * @see Search
    */
   clearSearch() {
-    const params = this.params();
-    delete params.q;
-
-    m.route(app.route(this.props.routeName, params));
+    m.route(app.route(this.props.routeName, {}));
   }
 
   /**
@@ -184,9 +203,7 @@ export default class GoogleSearchPage extends Page {
    * @return {Object}
    */
   stickyParams() {
-    return {
-      q: m.route.param("q")
-    };
+    return m.route.param();
   }
 
   /**
@@ -195,44 +212,6 @@ export default class GoogleSearchPage extends Page {
    * @return {Object}
    */
   params() {
-    return this.stickyParams();
-  }
-
-  /**
-   * Log the user in and then open the composer for a new discussion.
-   *
-   * @return {Promise}
-   */
-  newDiscussion() {
-    const deferred = m.deferred();
-
-    if (app.session.user) {
-      this.composeNewDiscussion(deferred);
-    } else {
-      app.modal.show(
-        new LogInModal({
-          onlogin: this.composeNewDiscussion.bind(this, deferred)
-        })
-      );
-    }
-
-    return deferred.promise;
-  }
-
-  /**
-   * Initialize the composer for a new discussion.
-   *
-   * @param {Deferred} deferred
-   * @return {Promise}
-   */
-  composeNewDiscussion(deferred) {
-    const component = new DiscussionComposer({ user: app.session.user });
-
-    app.composer.load(component);
-    app.composer.show();
-
-    deferred.resolve(component);
-
-    return deferred.promise;
+    return m.route.param();
   }
 }
