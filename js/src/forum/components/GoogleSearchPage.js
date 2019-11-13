@@ -17,8 +17,31 @@ import GoogleSearchList from "./GoogleSearchList";
 export default class GoogleSearchPage extends Page {
   init() {
     super.init();
+
     const params = this.params();
     this.bodyClass = "App--index";
+
+    // If the user is coming from the discussion list, then they have either
+    // just switched one of the parameters (filter, sort, search) or they
+    // probably want to refresh the results. We will clear the discussion list
+    // cache so that results are reloaded.
+    if (app.previous instanceof GoogleSearchPage) {
+      app.cache.googleSearchList = null;
+    }
+
+    if (app.cache.googleSearchList) {
+      // Compare the requested parameters (sort, search query) to the ones that
+      // are currently present in the cached discussion list. If they differ, we
+      // will clear the cache and set up a new discussion list component with
+      // the new parameters.
+      Object.keys(params).some(key => {
+        if (app.cache.googleSearchList.props.params[key] !== params[key]) {
+          app.cache.googleSearchList = null;
+          return true;
+        }
+      });
+    }
+
     if (!app.cache.googleSearchList) {
       app.cache.googleSearchList = new GoogleSearchList({ params });
     }

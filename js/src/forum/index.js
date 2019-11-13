@@ -24,7 +24,7 @@ app.initializers.add("irony-google-search", app => {
     query = query.toLowerCase();
 
     view.splice(
-      3,
+      100, // 尽量排在最后
       0,
       <li className="Dropdown-header">
         {app.translator.trans(
