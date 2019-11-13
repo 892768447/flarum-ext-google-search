@@ -12,6 +12,11 @@ require_once('simple_html_dom.php');
 class GoogleSearchApi implements RequestHandlerInterface
 {
 
+    private function startsWith($haystack, $needle)
+    {
+        return substr_compare($haystack, $needle, 0, strlen($needle)) === 0;
+    }
+
     private function query($q, $num, $hl)
     {
         try {
@@ -50,6 +55,10 @@ class GoogleSearchApi implements RequestHandlerInterface
                         $a = $divr->find('a', 0);
                         // 网址
                         $url = str_replace('\\', '', $a->href);
+                        if (!startsWith($url, 'http')) {
+                            // 过滤不规范的内容
+                            continue;
+                        }
                         // 标题
                         $title = str_replace('"', '', htmlspecialchars_decode($a->plaintext));
                         // 简介

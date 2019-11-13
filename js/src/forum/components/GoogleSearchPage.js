@@ -5,6 +5,7 @@ import ItemList from "flarum/utils/ItemList";
 import listItems from "flarum/helpers/listItems";
 import IndexPage from "flarum/components/IndexPage";
 import Alert from "flarum/components/Alert";
+import LogInModal from "flarum/components/LogInModal";
 import Button from "flarum/components/Button";
 import LinkButton from "flarum/components/LinkButton";
 import SelectDropdown from "flarum/components/SelectDropdown";
@@ -47,6 +48,8 @@ export default class GoogleSearchPage extends Page {
     }
     if (!app.session.user) {
       this.alertNotice();
+      app.modal.show(new LogInModal());
+      return true;
     }
   }
 
@@ -191,6 +194,7 @@ export default class GoogleSearchPage extends Page {
             app.cache.googleSearchList.refresh();
           } else {
             this.alertNotice();
+            app.modal.show(new LogInModal());
           }
         }
       })
