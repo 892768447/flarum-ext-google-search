@@ -16,7 +16,7 @@ class GoogleSearchApi implements RequestHandlerInterface
     {
         try {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://google.pyqt.site/search?newwindow=1&safe=active&num=' . $num . '&hl=' . $hl . '&gws_rd=ssl&q=' . $q);
+            curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/search?newwindow=1&safe=active&num=' . $num . '&hl=' . $hl . '&gws_rd=ssl&q=' . $q);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
